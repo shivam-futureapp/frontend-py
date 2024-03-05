@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two-Tier Flask App</title>
+</head>
+<body>
+    <h1>Hello, World!</h1>
+    <div id="backendResponse"></div>
+
+    <script>
+        fetch('http://localhost:83/api/hello') // Specify the full URL including the port
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('backendResponse').innerText = data.message;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('backendResponse').innerText = 'Error: ' + error.message;
+            });
+    </script>
+</body>
+</html>
