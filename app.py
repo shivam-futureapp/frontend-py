@@ -7,4 +7,4 @@ def index():
     return render_template('index.html')
 
 if __name__ == '__main__':
-    frontend_app.run(debug=True, host='0.0.0.0', port=82)  # Run the frontend app on port 5000
+    frontend_app.run(debug=True, host='0.0.0.0', port=80)  # Run the frontend app on port 5000
