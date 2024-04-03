@@ -1,0 +1,56 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+# Azure Pipelines YAML file
+
+trigger:
+  - main  # Trigger the pipeline on commits to the 'main' branch
+
+resources:
+  - repo: self  # The repository for the pipeline
+
+variables:
+  imageName: 'frontend'
+  dockerHubUsername: 'shivamspace'
+  dockerHubPassword: '$(dockerHubPassword)'  # Link this to your Docker Hub password as a secret variable
+  remoteHost: '13.201.193.151'
+  remoteUser: 'ubuntu'
+  remotePassword: '$(remotePassword)'  # Link this to your remote instance password as a secret variable
+
+stages:
+
+- stage: Build
+  jobs:
+  - job: Build
+    pool:
+      vmImage: 'ubuntu-latest'  # Use an Ubuntu-based agent
+    steps:
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'dockerHub'
+        command: 'buildAndPush'
+        dockerFile: '$(Build.SourcesDirectory)/Dockerfile'
+        buildContext: '$(Build.SourcesDirectory)'
+        repository: '$(dockerHubUsername)/$(imageName)'
+        tags: |
+          $(Build.BuildId)
+          latest
+
+- stage: Deploy
+  jobs:
+  - job: Deploy
+    pool:
+      vmImage: 'ubuntu-latest'  # Use an Ubuntu-based agent
+    steps:
+    - task: SSH@0
+      inputs:
+        sshEndpoint: 'remote-host'  # Create an SSH service connection to your remote instance
+        runOptions: 'commands'
+        commands: |
+          docker login -u $(dockerHubUsername) -p $(dockerHubPassword) # Log in to Docker Hub
+          docker pull $(dockerHubUsername)/$(imageName):$(Build.BuildId) # Pull the image
+          docker stop $(imageName) || true # Stop the container if it's already running
+          docker rm $(imageName) || true # Remove the container if it already exists
+          docker run -d --name $(imageName) $(dockerHubUsername)/$(imageName):$(Build.BuildId) # Spin up a new container
