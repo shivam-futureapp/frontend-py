@@ -50,6 +50,4 @@ stages:
         runOptions: 'commands'
         commands: |
           docker pull $(dockerHubUsername)/$(imageName):$(Build.BuildId) # Pull the image
-          docker stop $(imageName) || true # Stop the container if it's already running
-          docker rm $(imageName) || true # Remove the container if it already exists
           docker run -d --name $(imageName) $(dockerHubUsername)/$(imageName):$(Build.BuildId) # Spin up a new container
