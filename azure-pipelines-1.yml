@@ -46,7 +46,7 @@ stages:
     steps:
     - task: SSH@0
       inputs:
-        sshEndpoint: 'remote-host'  # Create an SSH service connection to your remote instance
+        sshEndpoint: 'remote-ssh'  # Create an SSH service connection to your remote instance
         runOptions: 'commands'
         commands: |
           docker login -u $(dockerHubUsername) -p $(dockerHubPassword) # Log in to Docker Hub
