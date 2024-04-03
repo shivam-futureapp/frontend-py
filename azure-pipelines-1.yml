@@ -49,7 +49,7 @@ stages:
         sshEndpoint: 'remote-ssh'  # Create an SSH service connection to your remote instance
         runOptions: 'commands'
         commands: |
-          echo "Jaya@3439" | docker login -u shivamspace --password-stdin
+          docker login -u shivamspace -p $(password) shivamspace
           docker pull $(dockerHubUsername)/$(imageName):$(Build.BuildId) # Pull the image
           docker stop $(imageName) || true # Stop the container if it's already running
           docker rm $(imageName) || true # Remove the container if it already exists
