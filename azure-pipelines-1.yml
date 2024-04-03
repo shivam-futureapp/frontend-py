@@ -14,10 +14,10 @@ resources:
 variables:
   imageName: 'frontend'
   dockerHubUsername: 'shivamspace'
-  dockerHubPassword: '$(dockerHubPassword)'  # Link this to your Docker Hub password as a secret variable
+  dockerHubPassword: 'Jaya@3439'  # Link this to your Docker Hub password as a secret variable
   remoteHost: '13.201.193.151'
   remoteUser: 'root'
-  remotePassword: '$(remotePassword)'  # Link this to your remote instance password as a secret variable
+  remotePassword: 'redhat'  # Link this to your remote instance password as a secret variable
 
 stages:
 
