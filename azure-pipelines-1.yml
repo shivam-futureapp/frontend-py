@@ -50,4 +50,5 @@ stages:
         runOptions: 'commands'
         commands: |
           docker pull $(dockerHubUsername)/$(imageName):$(Build.BuildId) # Pull the image
+          docker rm -f $(docker ps -aq)
           docker run -d --name $(imageName) $(dockerHubUsername)/$(imageName):$(Build.BuildId) # Spin up a new container
