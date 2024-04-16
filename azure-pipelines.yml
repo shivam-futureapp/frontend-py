@@ -31,5 +31,6 @@ stages:
             inputs:
               sshEndpoint: 'test-app-ssh-conn'
               runOptions: 'commands'
-              commands: 'sudo docker ps -a'
+              commands: 'sudo docker ps -a && docker container run -d --name=shivam -p 82:80 nginx'
               readyTimeout: '20000'
+              
