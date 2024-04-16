@@ -40,6 +40,6 @@ stages:
                   docker rm $(docker ps -a -q)
                   
                   # Run the new container
-                  docker run -d --name myapp $(dockerImageName)
+                  docker run -d --name=webserver -p 82:80 nginx
                 '
             displayName: 'Deploy to VM'
