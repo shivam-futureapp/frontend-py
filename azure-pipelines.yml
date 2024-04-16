@@ -42,4 +42,11 @@ stages:
                   # Run the new container
                   docker run -d --name=webserver -p 82:80 nginx
                 '
+            
             displayName: 'Deploy to VM'
+          - task: SSH@0
+            inputs:
+              sshEndpoint: 'test-app-ssh-conn'
+              runOptions: 'commands'
+              commands: 'sudo docker ps -a'
+              readyTimeout: '20000'
