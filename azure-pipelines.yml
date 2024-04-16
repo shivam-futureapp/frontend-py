@@ -11,7 +11,7 @@ stages:
     steps:
     - script: |
         # Build Docker image
-        docker build -t $(dockerImageName) .
+        docker build -t testing:latest .
       displayName: 'Build Docker Image'
       
       # Additional steps as needed
