@@ -27,20 +27,19 @@ stages:
       runOnce:
         deploy:
           steps:
-          - script: |
-              # Connect to the VM
-              ssh $(vmUsername)@$(vmHostname) '
-                # Stop existing containers
-                docker stop $(docker ps -q)
-                
-                # Remove existing containers
-                docker rm $(docker ps -a -q)
-                
-                # Run the new container
-                docker run -d --name myapp $(dockerImageName)
-              '
+          - task: Bash@3
+            inputs:
+              targetType: 'inline'
+              script: |
+                # Connect to the VM using service connection
+                ssh $(azureServiceConnectionName) '
+                  # Stop existing containers
+                  docker stop $(docker ps -q)
+                  
+                  # Remove existing containers
+                  docker rm $(docker ps -a -q)
+                  
+                  # Run the new container
+                  docker run -d --name myapp $(dockerImageName)
+                '
             displayName: 'Deploy to VM'
-            env:
-              vmPassword: $(vmPassword)
-              
-          # Additional steps as needed
