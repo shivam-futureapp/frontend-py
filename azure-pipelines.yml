@@ -22,6 +22,7 @@ stages:
       displayName: 'Clone Repository'
     - task: CopyFilesOverSSH@0
       inputs:
+        sshEndpoint: "test-app-ssh-conn"
         contents: 'repo/**' # Copy the entire cloned repository directory
         targetFolder: '/home/test-app_admin/' # Destination path on your VM
         hostName: '$(vmHostname)'
