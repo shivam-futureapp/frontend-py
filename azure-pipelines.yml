@@ -44,12 +44,12 @@ stages:
               commands: |
                 # Navigate to the copied repository directory
                 cd /home/test-app_admin/repo
-                sudo mkdir shivam_sharma
                 echo $(pwd)
                 
                 
                 # Build Docker image
                 sudo docker build -t testing:latest ./repo/ || exit 0
+                sudo mkdir testing_dir
               readyTimeout: '20000'
           - task: ShellScript@2
             inputs:
