@@ -24,7 +24,7 @@ stages:
       inputs:
         sshEndpoint: "test-app-ssh-conn"
         contents: 'repo/**' # Copy the entire cloned repository directory
-        targetFolder: '/home/test-app_admin/' # Destination path on your VM
+        targetFolder: '/home/$(vmUserName)/' # Destination path on your VM
         hostName: '$(vmHostname)'
         username: '$(vmUserName)'
         password: '$(vmPassword)'
@@ -47,11 +47,11 @@ stages:
               runOptions: 'commands'
               commands: |
                 # Navigate to the copied repository directory
-                cd /home/test-app_admin/repo/
+                cd /home/'$(vmUserName)'/repo/
                 echo $(pwd)
                 
                 # Build Docker image
-                docker build -t testing:latest .
+                sudo docker build -t testing:latest .
                 
                 # Run the Docker container
                 sudo docker container run -d --name=shivam -p 80:5000 testing:latest
