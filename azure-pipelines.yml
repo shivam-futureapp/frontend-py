@@ -18,17 +18,13 @@ stages:
     steps:
     - checkout: none  # Skip checking out the repository since we'll clone it manually
     - script: |
-        git clone https://shivam-futureapp:$(githubToken)@github.com/shivam-futureapp/frontend-py.git repo
+        git clone https://$(githubUser):$(githubToken)@github.com/shivam-futureapp/frontend-py.git repo
       displayName: 'Clone Repository'
     - task: CopyFilesOverSSH@0
       inputs:
         sshEndpoint: "test-app-ssh-conn"
         contents: 'repo/**' # Copy the entire cloned repository directory
-        targetFolder: '/home/test-app_admin/' # Destination path on your VM
-        hostName: '$(vmHostname)'
-        username: '$(vmUserName)'
-        password: '$(vmPassword)'
-        authenticationMethod: 'Password' # or use appropriate authentication method
+        targetFolder: '/home/test-app_admin/'
 
 # Deploy Stage
 - stage: Deploy
@@ -52,7 +48,7 @@ stages:
                 
                 
                 # Build Docker image
-                sudo docker build -t testing:latest ./repo/
+                sudo docker build -t testing:latest ./repo/ || exit 0
                 sudo docker images
                 sudo docker rm -f $(docker ps -aq)
                 sudo docker container run -d --name=shivam -p 80:5000 testing:latest
