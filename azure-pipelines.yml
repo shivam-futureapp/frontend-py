@@ -46,11 +46,8 @@ stages:
                 cd /home/test-app_admin/repo
                 echo $(pwd)
                 # sudo docker build -t testing:latest ./repo/
+                mkdir shivam 
+                cd shivam 
+                ls -al 
+                echo $(date)
               readyTimeout: '20000'
-          - task: ShellScript@2
-            inputs:
-              sshEndpoints: $(azureServiceConnectionName)
-              runOptions: 'commands'
-              commands: |
-              
-               sudo docker container run -d --name=app -p 80:5000 testing:latest
