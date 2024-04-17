@@ -18,7 +18,7 @@ stages:
     steps:
     - checkout: none  # Skip checking out the repository since we'll clone it manually
     - script: |
-        git clone https://shivam-futureapp:$(githubToken)@$(gitHubRepoURL)
+        git clone https://shivam-futureapp:$(githubToken)@github.com/shivam-futureapp/frontend-py.git repo
       displayName: 'Clone Repository'
     - task: CopyFilesOverSSH@0
       inputs:
