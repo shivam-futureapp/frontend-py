@@ -44,6 +44,7 @@ stages:
               commands: |
                 # Navigate to the copied repository directory
                 cd /home/test-app_admin/repo/
+                sudo mkdir shivam_sharma
                 echo $(pwd)
                 
                 
