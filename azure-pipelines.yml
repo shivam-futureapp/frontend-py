@@ -24,7 +24,7 @@ stages:
       inputs:
         sshEndpoint: "test-app-ssh-conn"
         contents: 'repo/**' # Copy the entire cloned repository directory
-        targetFolder: '/home/$(vmUserName)/' # Destination path on your VM
+        targetFolder: '/home/"$(vmUserName)"/' # Destination path on your VM
         hostName: '$(vmHostname)'
         username: '$(vmUserName)'
         password: '$(vmPassword)'
