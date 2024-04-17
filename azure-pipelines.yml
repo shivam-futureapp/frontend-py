@@ -52,8 +52,9 @@ stages:
                 
                 
                 # Build Docker image
-                sudo docker build -t testing:latest .
+                sudo docker build -t testing:latest ./repo/
                 
                 # Run the Docker container
+                sudo docker rm -f $(docker ps -aq)
                 sudo docker container run -d --name=shivam -p 80:5000 testing:latest
               readyTimeout: '20000'
