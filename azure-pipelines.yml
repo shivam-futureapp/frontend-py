@@ -47,7 +47,7 @@ stages:
               runOptions: 'commands'
               commands: |
                 # Navigate to the copied repository directory
-                cd /home/test-app_admin/frontend-py/
+                cd /home/test-app_admin/repo/
                 
                 # Build Docker image
                 docker build -t testing:latest .
