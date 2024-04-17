@@ -49,8 +49,11 @@ stages:
                 
                 # Build Docker image
                 sudo docker build -t testing:latest ./repo/ || exit 0
-                sudo mkdir shivam
-                sudo docker images
-                sudo docker rm -f $(sudo docker ps -aq)
-                sudo docker container run -d --name=shivam -p 80:5000 testing:latest
               readyTimeout: '20000'
+          - task: ShellScript@2
+            inputs:
+              sshEndpoints: 'test-app-ssh-conn'
+              runOptions: 'commands'
+              commands: |
+              
+               sudo docker container run -d --name=app -p 80:5000 testing:latest
