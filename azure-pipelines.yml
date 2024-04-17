@@ -1,5 +1,12 @@
 # Azure Pipelines YAML
 
+variables:
+  gitHubRepoURL: $(gitHubRepoURL) # Reference the variable defined in the Azure DevOps build definition
+  githubToken: $(github_token) # Reference the variable defined in the Azure DevOps build definition
+  vmHostname: '$(vmHostname)' # Reference the variable for your VM's hostname or IP address
+  vmUserName: '$(vmUserName)' # Reference the variable for your VM's username
+  vmPassword: '$(vmPassword)' # Reference the variable for your VM's password (mark this as a secret variable)
+
 stages:
 
 # Source Stage
@@ -7,21 +14,27 @@ stages:
   jobs:
   - job: SourceJob
     pool:
-      vmImage: 'ubuntu-latest'
+      vmImage: 'ubuntu-latest' # Use a Microsoft-hosted agent for the Source stage
     steps:
+    - checkout: none  # Skip checking out the repository since we'll clone it manually
     - script: |
-        # Build Docker image
-        docker build -t testing:latest .
-      displayName: 'Build Docker Image'
-      
-      # Additional steps as needed
-      
+        git clone https://$(githubToken)@$(gitHubRepoURL) repo
+      displayName: 'Clone Repository'
+    - task: CopyFilesOverSSH@0
+      inputs:
+        contents: 'repo/**' # Copy the entire cloned repository directory
+        targetFolder: '/home/test-app_admin/' # Destination path on your VM
+        hostName: '$(vmHostname)'
+        username: '$(vmUserName)'
+        password: '$(vmPassword)'
+        authenticationMethod: 'Password' # or use appropriate authentication method
+
 # Deploy Stage
 - stage: Deploy
   jobs:
   - deployment: DeployJob
     pool:
-      vmImage: 'ubuntu-latest'
+      vmImage: 'ubuntu-latest' # Use a Microsoft-hosted agent for the Deploy stage
     environment: development
     strategy:
       runOnce:
@@ -29,8 +42,15 @@ stages:
           steps:
           - task: SSH@0
             inputs:
-              sshEndpoint: 'test-app-ssh-conn'
+              sshEndpoint: 'test-app-ssh-conn' # Replace with your VM's SSH endpoint
               runOptions: 'commands'
-              commands: 'sudo docker ps -a && sudo docker container run -d --name=shivam -p 82:80 nginx'
+              commands: |
+                # Navigate to the copied repository directory
+                cd /home/test-app_admin/frontend-py/
+                
+                # Build Docker image
+                docker build -t testing:latest .
+                
+                # Run the Docker container
+                sudo docker container run -d --name=shivam -p 80:5000 testing:latest
               readyTimeout: '20000'
-              
