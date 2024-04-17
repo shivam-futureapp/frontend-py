@@ -18,7 +18,7 @@ stages:
     steps:
     - checkout: none  # Skip checking out the repository since we'll clone it manually
     - script: |
-        git clone https://$(githubToken)@$(gitHubRepoURL) repo
+        git clone https://ShivDev007:$(githubToken)@$(gitHubRepoURL)
       displayName: 'Clone Repository'
     - task: CopyFilesOverSSH@0
       inputs:
