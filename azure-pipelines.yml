@@ -48,6 +48,7 @@ stages:
               commands: |
                 # Navigate to the copied repository directory
                 cd /home/test-app_admin/repo/
+                echo $(pwd)
                 
                 # Build Docker image
                 docker build -t testing:latest .
