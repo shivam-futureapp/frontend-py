@@ -46,7 +46,7 @@ stages:
                 cd /home/test-app_admin/repo
                 echo $(pwd)
                 
-                
+                export DOCKER_BUILDKIT=1
                 # Build Docker image
                 sudo docker build -t testing:latest ./repo/
               readyTimeout: '20000'
