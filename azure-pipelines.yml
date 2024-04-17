@@ -22,7 +22,7 @@ stages:
       displayName: 'Clone Repository'
     - task: CopyFilesOverSSH@0
       inputs:
-        sshEndpoint: "test-app-ssh-conn"
+        sshEndpoint: $(azureServiceConnectionName)
         contents: 'repo/**' # Copy the entire cloned repository directory
         targetFolder: '/home/test-app_admin/'
 
@@ -39,11 +39,11 @@ stages:
           steps:
           - task: SSH@0
             inputs:
-              sshEndpoint: 'test-app-ssh-conn' # Replace with your VM's SSH endpoint
+              sshEndpoint: $(azureServiceConnectionName) # Replace with your VM's SSH endpoint
               runOptions: 'commands'
               commands: |
                 # Navigate to the copied repository directory
-                cd /home/test-app_admin/repo/
+                cd /home/test-app_admin/repo
                 sudo mkdir shivam_sharma
                 echo $(pwd)
                 
@@ -53,7 +53,7 @@ stages:
               readyTimeout: '20000'
           - task: ShellScript@2
             inputs:
-              sshEndpoints: 'test-app-ssh-conn'
+              sshEndpoints: $(azureServiceConnectionName)
               runOptions: 'commands'
               commands: |
               
