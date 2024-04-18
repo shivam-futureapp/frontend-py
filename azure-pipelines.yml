@@ -45,7 +45,7 @@ stages:
                 # Navigate to the copied repository directory
                 cd /home/test-app_admin/repo
                 echo $(pwd)
-                sudo docker build -t testing:latest ./repo/
+                sudo docker container rm -f $(sudo docker ps -aq)
                 sudo docker container run -d --name=app testing:latest
                 mkdir shivam 
                 cd shivam 
