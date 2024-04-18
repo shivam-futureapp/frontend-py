@@ -1,7 +1,7 @@
 # Azure Pipelines YAML
 
 variables:
-  gitHubRepoURL: $(gitHubRepoURL) # Reference the variable defined in the Azure DevOps build definition
+  # gitHubRepoURL: $(gitHubRepoURL) # Reference the variable defined in the Azure DevOps build definition
   githubToken: $(github_token) # Reference the variable defined in the Azure DevOps build definition
   vmHostname: '$(vmHostname)' # Reference the variable for your VM's hostname or IP address
   vmUserName: '$(vmUserName)' # Reference the variable for your VM's username
