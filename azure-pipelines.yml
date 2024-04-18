@@ -3,10 +3,8 @@
 variables:
   gitHub_RepoURL: $(gitHubRepoURL) # Reference the variable defined in the Azure DevOps build definition
   githubToken: $(github_token) # Reference the variable defined in the Azure DevOps build definition
-  vmHostname: '$(vmHostname)' # Reference the variable for your VM's hostname or IP address
-  vmUserName: '$(vmUserName)' # Reference the variable for your VM's username
-  vmPassword: '$(vmPassword)' # Reference the variable for your VM's password (mark this as a secret variable)
-
+  vm_Hostname: '$(vmHostname)' # Reference the variable for your VM's hostname or IP address
+  vm_UserName: '$(vmUserName)' # Reference the variable for your VM's username
 stages:
 
 # Source Stage
@@ -25,7 +23,7 @@ stages:
       inputs:
         sshEndpoint: $(azureServiceConnectionName)
         contents: 'repo/**' # Copy the entire cloned repository directory
-        targetFolder: '/home/test-app_admin/'
+        targetFolder: '/home/$(vm_UserName)/'
 
 # Deploy Stage
 - stage: Deploy
@@ -44,11 +42,10 @@ stages:
               runOptions: 'commands'
               commands: |
                 # Navigate to the copied repository directory
-                cd /home/test-app_admin/repo
+                cd /home/$(vm_UserName)/repo
                 echo $(pwd)
                 sudo docker container rm -f $(sudo docker ps -aq)
                 sudo docker container run -d --name=app testing:latest
-                mkdir shivam$(date) || exit 0 
                 cd shivam
                 ls -al 
                 echo $(date)
