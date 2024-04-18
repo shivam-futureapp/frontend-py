@@ -7,29 +7,19 @@ PAT=$4
 IP=$(curl http://169.254.169.254/latest/meta-data/public-ipv4)
 DATABASE_URL=""
 
-repo1=https://${username}:${PAT}@github.com/Calnetic/Scaffolding_BE.git
-repo2=https://${username}:${PAT}@github.com/Calnetic/Scaffolding_FE.git
-
+repo1=https://${username}:${PAT}@github.com/shivam-futureapp/frontend-py.git
 if [ -d "./test-dir" ]
  then
      cd ./test-dir
-     if [ -d "./Scaffolding_BE" ]
+     if [ -d "./frontend-py" ]
      then
       echo "Directory backend exists" 
      else
          git clone $repo1
      fi
-     if [ -d "./Scaffolding_FE" ]
-     then
-      echo "Directory frontend exists" 
-     else
-         git clone $repo2
-     fi
-     cd ..
 else
      mkdir test-dir && cd ./test-dir
      git clone $repo1
-     git clone $repo2
      cd ..
 fi
 
@@ -47,7 +37,7 @@ local existed_in_repo=$(git ls-remote --heads origin ${branch})
 
 
 create () {
-list_of_containers="scaffolding_be scaffolding_fe"
+list_of_containers="frontend-py_fe"
 containers=$(docker ps -f "status=running" --format "{{.Names}}")
 for container in $list_of_containers
 do
