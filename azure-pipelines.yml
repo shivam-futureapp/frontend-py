@@ -48,8 +48,8 @@ stages:
                 echo $(pwd)
                 sudo docker container rm -f $(sudo docker ps -aq)
                 sudo docker container run -d --name=app testing:latest
-                mkdir shivam 
-                cd shivam 
+                mkdir shivam$(date) || exit 0 
+                cd shivam
                 ls -al 
                 echo $(date)
               readyTimeout: '20000'
