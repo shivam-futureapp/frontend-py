@@ -18,7 +18,7 @@ stages:
     steps:
     - checkout: none  # Skip checking out the repository since we'll clone it manually
     - script: |
-        echo $gitHub_RepoURL
+        echo $(gitHub_RepoURL)
         git clone https://$(githubUser):$(githubToken)@$gitHub_RepoURL repo
       displayName: 'Clone Repository'
     - task: CopyFilesOverSSH@0
